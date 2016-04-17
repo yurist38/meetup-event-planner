@@ -1,0 +1,22 @@
+{
+  "name": "meetup-event-planner",
+  "homepage": "https://github.com/yurist38/meetup-event-planner",
+  "authors": [
+    "Yuri Drabik <yurist38@mail.ru>"
+  ],
+  "description": "Project #1 for Udacity Senior Web-Developer Nanodegree",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.10"
+  }
+}
