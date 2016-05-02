@@ -1,14 +1,15 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var extname = require('gulp-extname');
-var sourcemaps = require('gulp-sourcemaps');
-var plumber = require('gulp-plumber');
-var config = require('../config');
+var gulp         = require('gulp'),
+    config       = require('../config');
+    sass         = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    extname      = require('gulp-extname'),
+    sourcemaps   = require('gulp-sourcemaps'),
+    plumber      = require('gulp-plumber');
 
-var serveCss = function() {
-    console.log('Serving css...');
+gulp.task('serveCss', function() {
+    console.log('Compiling SCSS to CSS, adding autoprefixes and sourcemaps...');
 
-    return gulp.src(paths.scss + '**/*.scss')
+    return gulp.src(config.paths.scss + '**/*.scss')
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(sass({
@@ -18,9 +19,6 @@ var serveCss = function() {
             browsers: ['last 2 versions'],
             cascade: false
         }))
-        .pipe(sourcemaps.write())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.paths.distCss));
-};
-
-gulp.task('serveCss', serveCss);
-module.exports = gulp;
+});

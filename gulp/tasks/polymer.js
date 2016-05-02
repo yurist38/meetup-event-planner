@@ -1,10 +1,10 @@
-var gulp = require('gulp');
-var config = require('../config');
-var vulcanize = require('gulp-vulcanize');
+var gulp      = require('gulp'),
+    config    = require('../config'),
+    vulcanize = require('gulp-vulcanize'),
+    minifyHTML = require('gulp-minify-html');
 
-var polymer = function () {
-    gulp.src(config.paths.bower + "webcomponentsjs/webcomponents.min.js")
-        .pipe(gulp.dest("../../public/dist/js/polymer/"));
+gulp.task('polymer', function () {
+    console.log('Serve Polymer elements...');
 
     gulp.src('./assets/polymer-elements/elements.html')
         .pipe(vulcanize({
@@ -12,10 +12,6 @@ var polymer = function () {
             inlineScripts: true,
             inlineCss: true
         }))
+        .pipe(minifyHTML())
         .pipe(gulp.dest('./public/dist/polymer-elements/'));
-
-    return gulp;
-};
-
-gulp.task('polymer', polymer);
-module.exports = gulp;
+});

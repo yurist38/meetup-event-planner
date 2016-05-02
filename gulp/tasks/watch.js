@@ -1,12 +1,11 @@
-var gulp = require('gulp');
-var config = require('../config');
+var gulp     = require('gulp'),
+    config   = require('../config'),
+    bs       = require('browser-sync').create(),
+    sequence = require('gulp-sequence');
 
-var watch = function() {
-    gulp.watch([
-        config.paths.scss + '**/*.scss',
-        config.paths.js + '**/*.*'
-    ], ['default']);
-};
-
-gulp.task('watch', watch);
-module.exports = gulp;
+gulp.task('watch-all', function() {
+    console.log('Watching for changes...');
+    gulp.watch('./views/**/*.handlebars', ['reload']);
+    gulp.watch(config.paths.scss + '**/*.scss', ['serveCss', 'reload']);
+    gulp.watch(config.paths.js + '**/*.{js,es6}', ['serveJs', 'reload']);
+});

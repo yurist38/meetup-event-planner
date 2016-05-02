@@ -1,2 +1,6 @@
-# meetup-event-planner
-Udacity Senior Web-Developer Nanodegree's Project #1
+# Meetup Event Planner
+Udacity Senior Web-Developer Nanodegree's Project
+
+$ `npm run deploy`
+
+Go to http://localhost:3000

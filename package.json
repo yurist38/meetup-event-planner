@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "deploy": "npm i && bower install && gulp && npm run start"
   },
   "repository": {
     "type": "git",
@@ -18,16 +19,22 @@
   },
   "homepage": "https://github.com/yurist38/meetup-event-planner#readme",
   "devDependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "browser-sync": "^2.12.5",
+    "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
-    "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
     "gulp-extname": "^0.2.2",
+    "gulp-minify-html": "^1.0.6",
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^2.2.0",
+    "gulp-sequence": "^0.4.5",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-vulcanize": "^6.1.0"
+    "gulp-uglify": "^1.5.3",
+    "gulp-vulcanize": "^6.1.0",
+    "require-dir": "^0.3.0"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
