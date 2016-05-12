@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="login-register">
+
+    <style>
+        :host {
+
+        }
+    </style>
+
+    <template>
+
+        <template is="dom-if" if="{{ !isLogged() }}">
+
+            <paper-button on-tap="toggleLoginPopup">
+                <iron-icon icon="icons:subdirectory-arrow-right"></iron-icon>
+                Login
+            </paper-button>
+
+            <paper-dialog id="login-popup" on-iron-overlay-opened="onPopupOpen"
+                entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+
+                <iron-pages selected="0" id="login-register-pages">
+
+                    <div id="login-page">
+                        <h2>Login</h2>
+                        <form is="iron-form" id="login-form">
+                            <paper-input name="email" type="text" label="E-Mail Address"
+                                auto-validate required on-input="onLoginFormChange">
+                            </paper-input>
+                            <paper-input name="password" type="password" label="Password"
+                                auto-validate required on-input="onLoginFormChange">
+                            </paper-input>
+                        </form>
+                        <div class="buttons">
+                            <paper-button raised disabled class="active" id="login-button">
+                                Log In
+                            </paper-button>
+                            <paper-button raised on-tap="switchPage" data-switchto="1">
+                                Register
+                            </paper-button>
+                        </div>
+                    </div>
+
+                    <div id="register-page">
+                        <div>Reg page</div>
+                        <paper-button raised class="active">
+                            Register
+                        </paper-button>
+                        <paper-button raised on-tap="switchPage" data-switchto="0">
+                            Log In
+                        </paper-button>
+                    </div>
+
+                </iron-pages>
+
+            </paper-dialog>
+        </template>
+
+    </template>
+
+    <script src="js/login-register.js"></script>
+
+</dom-module>

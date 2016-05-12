@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "deploy": "npm i && bower install && gulp && npm run start"
+    "deploy": "npm i && bower install && gulp && npm run start",
+    "dev": "gulp dev"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
+    "gulp-develop-server": "^0.5.1",
     "gulp-extname": "^0.2.2",
     "gulp-minify-html": "^1.0.6",
     "gulp-plumber": "^1.1.0",

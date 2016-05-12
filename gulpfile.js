@@ -7,6 +7,14 @@ var gulp       = require('gulp'),
 
 requireDir( './gulp/tasks', { recurse: true } );
 
-gulp.task('default', sequence('cleanup', 'serveCss', 'serveJs', 'polymer'));
+var mainTasks = [
+    'serveCss',
+    'vendorCss',
+    'serveJs',
+    'vendorJs',
+    'polymer'
+];
 
-gulp.task('dev', sequence('default', 'bs', 'watch-all'));
+gulp.task('default', sequence('cleanup', mainTasks));
+
+gulp.task('dev', sequence('server:start', 'default', 'bs', 'watch-all'));

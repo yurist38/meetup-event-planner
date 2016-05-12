@@ -2,22 +2,31 @@
 <html>
 
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
         <link rel="import" href="/dist/polymer-elements/elements.html">
-        <link rel="stylesheet" href="/dist/css/global.css">
-        {{> favicon }}
-        <title>{{ title }} - Meet-Up Event Planner</title>
+        <link rel="stylesheet" href="/dist/css/vendor.css">
+        <link rel="stylesheet" href="/dist/css/bundle.css">
 
+        {{> favicon }}
+
+        <title>{{ title }} - Meet-Up Event Planner</title>
     </head>
 
     <body class="fullbleed layout vertical">
         <paper-header-panel class="flex">
 
             <paper-toolbar>
-                <div>Meet-Up Event Planner</div>
+                <span class="title">Meet-Up Event Planner</span>
+                <paper-icon-button icon="add"></paper-icon-button>
+                <login-register></login-register>
             </paper-toolbar>
 
-            <div class="main-content">
+            <div class="main-content container">
 
                 {{{ body }}}
 

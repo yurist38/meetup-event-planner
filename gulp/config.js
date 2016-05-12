@@ -5,7 +5,8 @@ var config = {
         dist: './public/dist/',
         distJs: './public/dist/js/',
         distCss: './public/dist/css/',
-        bower: './bower_components/'
+        bower: './bower_components/',
+        elements: './assets/polymer-elements/'
     }
 };
 
