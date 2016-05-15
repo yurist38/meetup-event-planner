@@ -1,45 +1,90 @@
 Polymer({
     is: 'login-register',
     properties: {
-        myProp: {
-            type: String,
-            value: 'myStr'
+        validators: {
+            type: Array,
+            value: [
+                {
+                    regexp: '[\!\@\#\$\%\^\&\*]',
+                    message: 'Must contain a special char.'
+                },{
+                    regexp: '\\d',
+                    message: 'Must contain a digit.'
+                },{
+                    regexp: '[A-Z]',
+                    message: 'Must contain a uppercase.'
+                },{
+                    regexp: '[a-z]',
+                    message: 'Must contain a lowercase.'
+                }
+            ]
+        },
+        userLogged: {
+            type: String
+        },
+        users: {
+            type: Array
         }
     },
-    onPopupOpen: function() {
-        //this.popup = document.querySelector('#login-popup');
+    ready() {
     },
-    listeners: {
-        //'login-popup.iron-overlay-opened': '_loginPopupOpened'
+    initializeDefaultUser() {
+        this.userLogged = '';
     },
-    _loginPopupOpened: function() {
-        console.log('Opened');
+    initializeDefaultUsers() {
+        this.users = [];
     },
-    isLogged: function() {
-        return !!localStorage.userLogged;
+    onPopupOpen() {
+        this.$$('#valid1').validate = this.passwordValidator.bind(this);
+        this.$$('#valid2').validate = this.passwordRepeatValidator.bind(this);
     },
-    toggleLoginPopup: function(e) {
+    toggleLoginPopup(e) {
         document.querySelector('#login-popup').toggle();
     },
-    switchPage: function(e) {
+    switchPage(e) {
+        e.preventDefault();
         document.querySelector('#login-register-pages').selected =
             e.target.getAttribute('data-switchto');
     },
-    onLoginFormChange: function() {
-        document.querySelector('#login-button').disabled =
-            !document.querySelector('#login-form').validate();
+    onFormChange(e) {
+        e.target.form.querySelector('paper-button').disabled =
+            !e.target.form.validate();
+    },
+    loginUser(e) {
+        e.preventDefault();
+        var data  = e.target.serialize();
+        for (var user of this.users) {
+            if (user.email === data.email && user.password === data.password) {
+                this.userLogged = user.username;
+            }
+        }
+    },
+    logout() {
+        this.userLogged = '';
+    },
+    registerUser(e) {
+        e.preventDefault();
+        this.users.push(e.target.serialize());
+        e.target.reset();
+        document.querySelector('#login-register-pages').selected = 0;
+    },
+    passwordValidator(value) {
+        for (var validator of this.validators) {
+            if (!value.match(new RegExp(validator.regexp, 'g'))) {
+                this.$$('#reg-password').errorMessage = validator.message;
+                return false;
+            }
+        }
+        return true;
+    },
+    passwordRepeatValidator(value) {
+        return value === this.$$('#reg-password').value;
     }
 });
 
-/*Polymer({
-    is: 'login-form',
-    ready: function() {
-        console.log('Popup ready');
-    },
-    listeners: {
-      'iron-overlay-closed':'_dialogClosed'
-    },
-    _dialogClosed: function(e) {
-      console.log('Dialog Closed');
-    }
-});*/
+Polymer({
+    is: 'custom-validator',
+    behaviors: [
+        Polymer.IronValidatorBehavior
+    ]
+});

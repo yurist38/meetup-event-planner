@@ -7,26 +7,41 @@ var gulp       = require('gulp'),
     plumber    = require('gulp-plumber'),
     uglify     = require('gulp-uglify'),
     extname    = require('gulp-extname'),
+    sequence   = require('gulp-sequence'),
+    concat     = require('gulp-concat'),
     minifyHTML = require('gulp-minify-html');
 
-gulp.task('polymer', function () {
-    console.log('Serve Polymer elements...');
+gulp.task('polymer', function(callback) {
+    sequence('remove-js-compiled', 'compile-js', 'serve-elements')(callback);
+});
 
-    del(config.paths.elements + 'js');
+gulp.task('remove-js-compiled', function() {
+    console.log('Removing compiled polymer elements JS');
 
-    gulp.src(config.paths.elements + 'es6/*.es6')
+    return del(config.paths.elements + 'js');
+});
+
+gulp.task('compile-js', function() {
+    console.log('Compiling polymer elements ES6 to JS...');
+
+    return gulp.src(config.paths.elements + 'es6/*.es6')
         .pipe(plumber())
         .pipe(babel({presets: ['es2015']}))
         .pipe(uglify())
         .pipe(extname('.js'))
         .pipe(gulp.dest(config.paths.elements + 'js'));
+});
 
-    gulp.src('./assets/polymer-elements/elements.html')
+gulp.task('serve-elements', function() {
+    console.log('Serving polymer elements...');
+
+    return gulp.src(config.paths.elements + 'polymer-elements.html')
         .pipe(vulcanize({
             stripComments: true,
             inlineScripts: true,
             inlineCss: true
         }))
+        .pipe(concat('elements.html'))
         .pipe(minifyHTML())
         .pipe(gulp.dest('./public/dist/polymer-elements/'));
 });

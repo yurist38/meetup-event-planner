@@ -8,5 +8,5 @@ gulp.task('watch-all', function() {
     gulp.watch('./views/**/*.handlebars', ['reload']);
     gulp.watch(config.paths.scss + '**/*.scss', ['serveCss','reload']);
     gulp.watch(config.paths.js + '**/*.{js,es6}', ['serveJs','reload']);
-    gulp.watch(config.paths.elements + '**/*.{html,js,es6,css,scss}', ['polymer','reload']);
+    gulp.watch(config.paths.elements + '**/*.{html,es6,css,scss}', ['polymer','reload']);
 });

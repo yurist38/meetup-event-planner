@@ -15,3 +15,23 @@ paper-button {
         color: #ffffff;
     }
 }
+
+.centered {
+    text-align: center;
+}
+
+.padding {
+    padding: 10px;
+}
+
+.mainpage {
+    position: relative;
+    height: calc(100vh - 64px);
+    background-image: url('/images/main-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+.main-content {
+
+}
