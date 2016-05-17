@@ -55,7 +55,15 @@
 
     <script>
         Polymer({
-            is: 'collapse-toolbar'
+            is: 'collapse-toolbar',
+            properties: {
+                query: {
+                    type: String
+                },
+                smallScreen: {
+                    type: Boolean
+                }
+            }
         });
     </script>
 
