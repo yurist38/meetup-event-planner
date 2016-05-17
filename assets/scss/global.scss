@@ -1,4 +1,5 @@
 $primary: #3F51B5;
+$grey: #cccccc;
 
 html,
 body {
@@ -32,6 +33,11 @@ paper-button {
     background-position: center center;
 }
 
-.main-content {
-
-}
+/*.menu-desktop a {
+    color: #fff;
+    transition: all 0.2s linear;
+    &:hover {
+        color: $grey;
+        text-decoration: none;
+    }
+}*/

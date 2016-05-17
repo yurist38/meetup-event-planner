@@ -6,7 +6,7 @@ gulp.task('bs', function() {
         proxy: 'localhost:3000',
         port: 4000,
         notify: false,
-        reloadDelay: 2000
+        reloadDelay: 4000
     });
 });
 

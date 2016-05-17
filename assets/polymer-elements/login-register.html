@@ -8,7 +8,7 @@
         }
     </style>
 
-    <template id="logintemplate">
+    <template>
 
         <iron-localstorage name="users" value="{{ users }}"
             on-iron-localstorage-load-empty="initializeDefaultUsers">
@@ -16,13 +16,16 @@
         <iron-localstorage name="userLogged" value="{{ userLogged }}"
             on-iron-localstorage-load-empty="initializeDefaultUser">
         </iron-localstorage>
+        <iron-localstorage name="lastEmailLogged" value="{{ lastEmailLogged }}"
+            on-iron-localstorage-load-empty="initializeLastEmail">
+        </iron-localstorage>
 
-        <template is="dom-if" if="!{{ userLogged }}">
+        <template is="dom-if" if="{{ !userLogged }}">
 
-            <paper-button on-tap="toggleLoginPopup">
-                <iron-icon icon="icons:subdirectory-arrow-right"></iron-icon>
+            <a href="#" on-tap="toggleLoginPopup">
                 Login
-            </paper-button>
+                <iron-icon icon="icons:chevron-right"></iron-icon>
+            </a>
 
             <paper-dialog id="login-popup" on-iron-overlay-opened="onPopupOpen"
                 entry-animation="scale-up-animation"
@@ -41,6 +44,7 @@
                                 error="Please input correct e-mail..."
                                 autocomplete="email"
                                 required autofocus
+                                value="{{ lastEmailLogged }}"
                                 on-input="onFormChange">
                             </paper-input>
                             <input hidden is="iron-input" autocomplete="email" />
@@ -57,6 +61,7 @@
                                 <paper-button raised disabled class="active"
                                     onclick="document.querySelector('#login-form').submit()">
                                     Log In
+                                    <iron-icon icon="icons:chevron-right"></iron-icon>
                                 </paper-button>
                             </div>
                         </form>
@@ -118,6 +123,7 @@
                                 <paper-button raised class="active" disabled
                                     onclick="document.querySelector('#register-form').submit()">
                                     Register
+                                    <iron-icon icon="icons:perm-identity"></iron-icon>
                                 </paper-button>
                             </div>
                         </form>
@@ -133,10 +139,10 @@
         </template>
 
         <template is="dom-if" if="{{ userLogged }}">
-            <paper-button on-tap="logout">
-                <iron-icon icon="icons:subdirectory-arrow-left"></iron-icon>
+            <a href="#" on-tap="logout">
+                <iron-icon icon="icons:exit-to-app"></iron-icon>
                 Logout
-            </paper-button>
+            </a>
         </template>
 
     </template>

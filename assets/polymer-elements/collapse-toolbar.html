@@ -1,0 +1,62 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="collapse-toolbar" attributes="query">
+
+    <style>
+        :host {
+            display: block;
+            position: relative;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        ::content .paper-menu-button .dropdown-content.paper-menu-button {
+            background-color: #3F51B5;
+        }
+        ::content .paper-menu-button {
+            text-align: center;
+        }
+        ::content a {
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            color: #ffffff;
+            line-height: 30px;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: all 0.2s linear;
+        }
+        ::content a:hover {
+            color: #cccccc;
+            text-decoration: none;
+        }
+    </style>
+
+    <template>
+
+        <div>
+            <template is="dom-if" if="{{ smallScreen }}">
+                <paper-menu-button vertical-offset="56" layout vertical center>
+                    <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+                    <content></content>
+                </paper-menu-button>
+            </template>
+            <template is="dom-if" if="{{ !smallScreen }}">
+                <content></content>
+            </template>
+        </div>
+
+        <iron-media-query query="{{ query }}" query-matches="{{ smallScreen }}">
+        </iron-media-query>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'collapse-toolbar'
+        });
+    </script>
+
+</dom-module>

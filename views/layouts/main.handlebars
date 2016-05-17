@@ -20,10 +20,28 @@
     <body class="fullbleed layout vertical">
         <paper-header-panel class="flex">
 
-            <paper-toolbar>
+            <paper-toolbar class="horizontal layout">
                 <span class="title">Meet-Up Event Planner</span>
-                <paper-icon-button icon="add"></paper-icon-button>
-                <login-register></login-register>
+                <collapse-toolbar query="(max-width: 600px)">
+                    <paper-menu class="dropdown-content">
+                        <paper-item>
+                            <a href="/" title="Homepage">
+                                <iron-icon icon="icons:home"></iron-icon>
+                                Home
+                            </a>
+                        </paper-item>
+                        <paper-item>
+                            <a href="/events" title="Show Events List">
+                                <iron-icon icon="maps:local-bar"></iron-icon>
+                                Events
+                            </a>
+                        </paper-item>
+                        <paper-item>
+                            <login-register></login-register>
+                        </paper-item>
+                    </paper-menu>
+                </collapse-toolbar>
+
             </paper-toolbar>
 
             <div class="main-content fit">

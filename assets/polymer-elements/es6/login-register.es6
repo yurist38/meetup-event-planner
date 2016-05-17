@@ -24,6 +24,9 @@ Polymer({
         },
         users: {
             type: Array
+        },
+        lastEmailLogged: {
+            type: String
         }
     },
     ready() {
@@ -34,11 +37,15 @@ Polymer({
     initializeDefaultUsers() {
         this.users = [];
     },
+    initializeLastEmail() {
+        this.lastEmailLogged = '';
+    },
     onPopupOpen() {
         this.$$('#valid1').validate = this.passwordValidator.bind(this);
         this.$$('#valid2').validate = this.passwordRepeatValidator.bind(this);
     },
     toggleLoginPopup(e) {
+        e.preventDefault();
         document.querySelector('#login-popup').toggle();
     },
     switchPage(e) {
@@ -59,7 +66,8 @@ Polymer({
             }
         }
     },
-    logout() {
+    logout(e) {
+        e.preventDefault();
         this.userLogged = '';
     },
     registerUser(e) {
