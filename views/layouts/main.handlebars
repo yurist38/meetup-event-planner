@@ -9,7 +9,6 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
         <link rel="import" href="/dist/polymer-elements/elements.html">
-        <link rel="stylesheet" href="/dist/css/vendor.css">
         <link rel="stylesheet" href="/dist/css/bundle.css">
 
         {{> favicon }}
@@ -20,18 +19,18 @@
     <body class="fullbleed layout vertical">
         <paper-header-panel class="flex">
 
-            <paper-toolbar class="horizontal layout">
+            <paper-toolbar class="horizontal layout" id="mu-toolbar">
                 <span class="title">Meet-Up Event Planner</span>
                 <collapse-toolbar query="(max-width: 600px)">
                     <paper-menu class="dropdown-content">
                         <paper-item>
-                            <a href="/" title="Homepage">
+                            <a href="/" title="Homepage" class="menu-link">
                                 <iron-icon icon="icons:home"></iron-icon>
                                 Home
                             </a>
                         </paper-item>
                         <paper-item>
-                            <a href="/events" title="Show Events List">
+                            <a href="/events" title="Show Events List" class="menu-link">
                                 <iron-icon icon="maps:local-bar"></iron-icon>
                                 Events
                             </a>

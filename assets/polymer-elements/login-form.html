@@ -1,0 +1,55 @@
+<link rel="import" href="polymer-elements.html">
+
+<dom-module id="login-form">
+    <template>
+
+        <iron-localstorage name="lastEmailLogged" value="{{ lastEmailLogged }}"
+            on-iron-localstorage-load-empty="initializeLastEmail">
+        </iron-localstorage>
+        <iron-localstorage name="users" value="{{ users }}"
+            on-iron-localstorage-load-empty="initializeDefaultUsers">
+        </iron-localstorage>
+        <iron-localstorage name="userLogged" value="{{ userLogged }}" id="userLogged"
+            on-iron-localstorage-load-empty="initializeDefaultUser">
+        </iron-localstorage>
+
+        <form is="iron-form" id="login-form" name="login-form" on-iron-form-presubmit="loginUser">
+            <paper-input
+                name="email"
+                type="text"
+                label="E-Mail Address"
+                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+                error="Please input correct e-mail..."
+                required autofocus
+                value="{{ lastEmailLogged }}"
+                on-input="onFormChange">
+            </paper-input>
+            <paper-input
+                name="password"
+                type="password"
+                label="Password"
+                minlength="8"
+                required
+                on-input="onFormChange">
+            </paper-input>
+            <paper-toast id="toastNotFound" text="Sorry, user not found..."></paper-toast>
+            <paper-toast id="toastLoginSuccess"
+                text="Congratulations! You authorized successfully.">
+            </paper-toast>
+            <input hidden="true" type="submit" />
+            <div class="centered padding">
+                <paper-button raised
+                    class="active"
+                    disabled="{{ submitBtnDisabled }}"
+                    on-tap="submitForm">
+                    Log In
+                    <iron-icon icon="icons:chevron-right"></iron-icon>
+                </paper-button>
+            </div>
+        </form>
+
+    </template>
+
+    <script src="js/login-form.js"></script>
+
+</dom-module>

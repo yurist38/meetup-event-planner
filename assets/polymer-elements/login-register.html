@@ -1,33 +1,23 @@
 <link rel="import" href="polymer-elements.html">
+<link rel="import" href="login-form.html">
+<link rel="import" href="register-form.html">
 
 <dom-module id="login-register">
 
-    <style>
-        :host {
-
-        }
-    </style>
-
     <template>
 
-        <iron-localstorage name="users" value="{{ users }}"
-            on-iron-localstorage-load-empty="initializeDefaultUsers">
-        </iron-localstorage>
-        <iron-localstorage name="userLogged" value="{{ userLogged }}"
+        <iron-localstorage name="userLogged" value="{{ userLogged }}" id="userLoggedToolbar"
             on-iron-localstorage-load-empty="initializeDefaultUser">
-        </iron-localstorage>
-        <iron-localstorage name="lastEmailLogged" value="{{ lastEmailLogged }}"
-            on-iron-localstorage-load-empty="initializeLastEmail">
         </iron-localstorage>
 
         <template is="dom-if" if="{{ !userLogged }}">
 
-            <a href="#" on-tap="toggleLoginPopup">
+            <a href="/login" on-tap="onLoginClicked" class="menu-link">
                 Login
                 <iron-icon icon="icons:chevron-right"></iron-icon>
             </a>
 
-            <paper-dialog id="login-popup" on-iron-overlay-opened="onPopupOpen"
+            <paper-dialog id="login-popup"
                 entry-animation="scale-up-animation"
                 exit-animation="fade-out-animation">
 
@@ -35,36 +25,7 @@
 
                     <div id="login-page">
                         <h2>Login</h2>
-                        <form is="iron-form" id="login-form" on-iron-form-presubmit="loginUser">
-                            <paper-input
-                                name="email"
-                                type="text"
-                                label="E-Mail Address"
-                                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
-                                error="Please input correct e-mail..."
-                                autocomplete="email"
-                                required autofocus
-                                value="{{ lastEmailLogged }}"
-                                on-input="onFormChange">
-                            </paper-input>
-                            <input hidden is="iron-input" autocomplete="email" />
-                            <paper-input
-                                name="password"
-                                type="password"
-                                label="Password"
-                                minlength="8"
-                                required
-                                on-input="onFormChange">
-                            </paper-input>
-                            <input hidden="true" type="submit" />
-                            <div class="centered padding">
-                                <paper-button raised disabled class="active"
-                                    onclick="document.querySelector('#login-form').submit()">
-                                    Log In
-                                    <iron-icon icon="icons:chevron-right"></iron-icon>
-                                </paper-button>
-                            </div>
-                        </form>
+                        <login-form></login-form>
                         <div class="centered padding">
                             <a href="#" on-tap="switchPage" data-switchto="1">
                                 Create new account
@@ -74,59 +35,7 @@
 
                     <div id="register-page">
                         <h2>Create new account</h2>
-
-                        <form is="iron-form" id="register-form" on-iron-form-presubmit="registerUser">
-                            <paper-input
-                                name="username"
-                                type="text"
-                                label="Your Name"
-                                auto-validate required
-                                on-input="onFormChange">
-                            </paper-input>
-                            <paper-input
-                                name="email"
-                                type="text"
-                                label="E-Mail Address"
-                                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
-                                error-message="Please input correct e-mail..."
-                                auto-validate required
-                                on-input="onFormChange">
-                            </paper-input>
-                            <custom-validator
-                                id="valid1"
-                                validator-name="passwordValidator">
-                            </custom-validator>
-                            <paper-input id="reg-password"
-                                name="password"
-                                type="password"
-                                label="Password"
-                                minlength="8"
-                                auto-validate required char-counter
-                                error-message="Minimal length is 8 digits."
-                                on-input="onFormChange"
-                                validator="passwordValidator">
-                            </paper-input>
-                            <custom-validator id="valid2"
-                                validator-name="passwordRepeatValidator">
-                            </custom-validator>
-                            <paper-input id="reg-password2"
-                                name="password-repeat"
-                                type="password"
-                                label="Repeat password"
-                                auto-validate required char-counter
-                                on-input="onFormChange"
-                                error-message="Please repeat the same password!"
-                                validator="passwordRepeatValidator">
-                            </paper-input>
-                            <input hidden="true" type="submit" />
-                            <div class="centered padding">
-                                <paper-button raised class="active" disabled
-                                    onclick="document.querySelector('#register-form').submit()">
-                                    Register
-                                    <iron-icon icon="icons:perm-identity"></iron-icon>
-                                </paper-button>
-                            </div>
-                        </form>
+                        <register-form></register-form>
                         <div class="centered padding">
                             <a href="#" on-tap="switchPage" data-switchto="0">Login</a>
                             to existing account.
@@ -139,7 +48,7 @@
         </template>
 
         <template is="dom-if" if="{{ userLogged }}">
-            <a href="#" on-tap="logout">
+            <a href="#" on-tap="logout" class="menu-link">
                 <iron-icon icon="icons:exit-to-app"></iron-icon>
                 Logout
             </a>

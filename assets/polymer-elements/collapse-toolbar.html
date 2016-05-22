@@ -18,19 +18,8 @@
         ::content .paper-menu-button {
             text-align: center;
         }
-        ::content a {
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-            color: #ffffff;
-            line-height: 30px;
-            font-size: 16px;
-            text-transform: uppercase;
-            transition: all 0.2s linear;
-        }
-        ::content a:hover {
-            color: #cccccc;
-            text-decoration: none;
+        ::content paper-menu-button paper-item {
+            display: block;
         }
     </style>
 
@@ -38,7 +27,7 @@
 
         <div>
             <template is="dom-if" if="{{ smallScreen }}">
-                <paper-menu-button vertical-offset="56" layout vertical center>
+                <paper-menu-button vertical-offset="56">
                     <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
                     <content></content>
                 </paper-menu-button>

@@ -1,0 +1,97 @@
+<link rel="import" href="polymer-elements.html">
+
+<dom-module id="register-form">
+
+    <template>
+
+        <iron-localstorage name="users" value="{{ users }}" id="users"
+            on-iron-localstorage-load-empty="initializeDefaultUsers">
+        </iron-localstorage>
+        <iron-localstorage name="userLogged" value="{{ userLogged }}"
+            on-iron-localstorage-load-empty="initializeDefaultUser">
+        </iron-localstorage>
+
+        <form is="iron-form" id="register-form" on-iron-form-presubmit="registerUser">
+            <paper-input
+                name="username"
+                type="text"
+                label="Your Name"
+                auto-validate required
+                on-input="onFormChange">
+            </paper-input>
+            <paper-input
+                name="email"
+                type="text"
+                label="E-Mail Address"
+                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+                error-message="Please input correct e-mail..."
+                auto-validate required
+                on-input="onFormChange">
+            </paper-input>
+            <custom-validator
+                id="valid1"
+                validator-name="passwordValidator">
+            </custom-validator>
+            <paper-input id="reg-password"
+                name="password"
+                type="password"
+                label="Password"
+                minlength="8"
+                auto-validate required char-counter
+                error-message="Minimal length is 8 digits."
+                on-input="onFormChange"
+                validator="passwordValidator">
+            </paper-input>
+            <custom-validator id="valid2"
+                validator-name="passwordRepeatValidator">
+            </custom-validator>
+            <paper-input id="reg-password2"
+                name="password-repeat"
+                type="password"
+                label="Repeat password"
+                auto-validate required char-counter
+                on-input="onFormChange"
+                error-message="Please repeat the same password!"
+                validator="passwordRepeatValidator">
+            </paper-input>
+
+            <paper-checkbox checked="{{ showOptional }}" class="padding">
+                Tell us about yourself
+            </paper-checkbox>
+            <div hidden$="{{ !showOptional }}">
+                <paper-input id="employer"
+                    name="employer"
+                    label="Current employer"
+                    type="text">
+                </paper-input>
+                <paper-input id="title"
+                    name="title"
+                    label="Job Title"
+                    type="text">
+                </paper-input>
+                <input hidden="true" name="birthdate" value="{{ birthdate }}">
+                <vaadin-date-picker value="{{ birthdate }}" label="Your birth date">
+                </vaadin-date-picker>
+            </div>
+
+            <paper-toast id="toastRegisterSuccess"
+                text="Congratulations! You successfully registered. You can log in now...">
+            </paper-toast>
+
+            <input hidden="true" type="submit" />
+            <div class="centered padding">
+                <paper-button raised
+                    class="active"
+                    disabled="{{ submitBtnDisabled }}"
+                    on-tap="submitForm">
+                    Register
+                    <iron-icon icon="icons:perm-identity"></iron-icon>
+                </paper-button>
+            </div>
+        </form>
+
+    </template>
+
+    <script src="js/register-form.js"></script>
+
+</dom-module>

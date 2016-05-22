@@ -7,9 +7,9 @@ var gulp         = require('gulp'),
     plumber      = require('gulp-plumber'),
     concat       = require('gulp-concat');
 
-var vendorStyles = [
+/*var vendorStyles = [
     config.paths.bower + 'bootstrap/dist/css/bootstrap.min.css'
-];
+];*/
 
 gulp.task('serveCss', function() {
     console.log('Compiling SCSS to CSS, adding autoprefixes and sourcemaps...');
@@ -29,11 +29,11 @@ gulp.task('serveCss', function() {
         .pipe(gulp.dest(config.paths.distCss));
 });
 
-gulp.task('vendorCss', function() {
+/*gulp.task('vendorCss', function() {
     console.log('Serve vendor\'s styles...');
 
     return gulp.src(vendorStyles)
         .pipe(plumber())
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest(config.paths.distCss));
-});
+});*/

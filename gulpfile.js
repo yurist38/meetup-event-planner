@@ -9,7 +9,7 @@ requireDir( './gulp/tasks', { recurse: true } );
 
 var mainTasks = [
     'serveCss',
-    'vendorCss',
+    //'vendorCss',
     'serveJs',
     'vendorJs',
     'polymer'
