@@ -1,0 +1,28 @@
+<link rel="import" href="polymer-elements.html">
+
+<dom-module id="events-list">
+
+    <template>
+        <iron-localstorage name="userLogged" value="{{ userLogged }}">
+        </iron-localstorage>
+
+        <h1>Events list</h1>
+
+        <template is="dom-if" if="{{ !userLogged }}">
+            Please
+            <a href="/login" on-tap="onLoginClicked">login</a>
+            to see your events...
+        </template>
+
+        <paper-fab id="addEventBtn"
+            icon="add"
+            title="Create new event"
+            disabled="{{ !userLogged }}"
+            onclick="document.location.href='/add-event'">
+        </paper-fab>
+
+    </template>
+
+    <script src="js/events-list.js"></script>
+
+</dom-module>

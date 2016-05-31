@@ -31,7 +31,7 @@ Polymer({
             if (user.email === data.email && user.password === data.password) {
                 this.userLogged = user.username;
                 this.$$('#userLogged').save();
-                document.querySelector('#userLoggedToolbar').reload();
+                this.updateLocalstorageElements('userLogged');
                 this.loginSuccess();
                 return;
             }
@@ -52,5 +52,9 @@ Polymer({
                 document.location.href = '/';
             }, 3000);
         }
+    },
+    updateLocalstorageElements(name) {
+        var els = document.querySelectorAll('iron-localstorage[name=' + name + ']');
+        [].forEach.call(els, el => el.reload());
     }
 });

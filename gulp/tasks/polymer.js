@@ -26,7 +26,7 @@ gulp.task('compile-js', function() {
 
     return gulp.src(config.paths.elements + 'es6/*.es6')
         .pipe(plumber())
-        .pipe(babel({presets: ['es2015']}))
+        .pipe(babel({ presets: ['es2015'] }))
         .pipe(uglify())
         .pipe(extname('.js'))
         .pipe(gulp.dest(config.paths.elements + 'js'));

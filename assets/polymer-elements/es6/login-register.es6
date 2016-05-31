@@ -22,5 +22,8 @@ Polymer({
     logout(e) {
         e.preventDefault();
         this.userLogged = '';
+        this.$$('#userLoggedToolbar').save();
+        var els = document.querySelectorAll('iron-localstorage[name="userLogged"]');
+        [].forEach.call(els, el => el.reload());
     }
 });

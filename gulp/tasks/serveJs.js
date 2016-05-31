@@ -16,10 +16,10 @@ gulp.task('serveJs', function() {
     return gulp.src(config.paths.js + '**/*.{js,es6}')
         .pipe(plumber())
         .pipe(sourcemaps.init())
-        .pipe(babel({presets: ['es2015']}))
-        .pipe(sourcemaps.write('.'))
+        .pipe(babel({ presets: ['es2015'] }))
         .pipe(concat('bundle.js'))
         .pipe(uglify())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.paths.distJs));
 });
 

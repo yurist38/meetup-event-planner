@@ -2,8 +2,94 @@
 
 <dom-module id="add-event-form">
 
+    <style>
+        paper-dropdown-menu {
+            width: 100%;
+        }
+        .input-wrapper {
+            display: inline-block;
+            vertical-align: top;
+            width: calc(50% - 30px);
+            margin: 0 15px;
+        }
+        @media screen and (max-width: 600px) {
+            .input-wrapper {
+                width: 100%;
+                margin: 0;
+            }
+        }
+    </style>
+
     <template>
-        
+        <iron-localstorage name="userLogged" value="{{ userLogged }}">
+        </iron-localstorage>
+
+        <h1>Create new event</h1>
+
+        <template is="dom-if" if="{{ userLogged }}">
+            <form is="iron-form" id="newEventForm" on-iron-form-presubmit="onSubmit">
+                <div class="input-wrapper">
+                    <paper-input
+                    label="Name"
+                    name="name"
+                    type="text"
+                    required autofocus>
+                    </paper-input>
+                </div>
+                <div class="input-wrapper">
+                    <paper-dropdown-menu label="Type">
+                        <paper-listbox class="dropdown-content"
+                            selected="{{ eventTypeNumber }}">
+                            <template is="dom-repeat" items="{{ types }}">
+                                <paper-item>{{ item }}</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <input type="hidden" name="type" value="{{ eventType }}">
+                    <div hidden$="{{ isHideCustomType }}">
+                        <paper-input id="customType"
+                            label="Your custom type"
+                            type="text"
+                            name="customType">
+                        </paper-input>
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <paper-dropdown-menu label="Organizer">
+                        <paper-listbox id="organizer"
+                            class="dropdown-content" selected="0">
+                            <paper-item>Individual</paper-item>
+                            <paper-item>Organization</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </div>
+                <div class="input-wrapper">
+                    <paper-input
+                        name="hostname"
+                        label="Host Name"
+                        type="text"
+                        required>
+                    </paper-input>
+                </div>
+                <div class="input-wrapper">
+                    <vaadin-date-picker name="start" label="Event start">
+                    </vaadin-date-picker>
+                </div>
+                <div class="input-wrapper">
+                    <vaadin-date-picker name="end" label="Event end">
+                    </vaadin-date-picker>
+                </div>
+                <input type="submit">
+            </form>
+        </template>
+
+        <template is="dom-if" if="{{ !userLogged }}">
+            <div>Sorry, only authorized users can create an event. Please
+                <a href="/register">register</a> or
+                <a href="/login">login</a>.
+            </div>
+        </template>
+
     </template>
 
     <script src="js/add-event-form.js"></script>
