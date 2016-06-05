@@ -47,6 +47,12 @@ paper-button {
     display: none;
 }
 
+.half-wide {
+    display: inline-block;
+    position: relative;
+    width: 50%;
+}
+
 .centered {
     text-align: center;
 }

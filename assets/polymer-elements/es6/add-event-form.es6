@@ -33,7 +33,20 @@ Polymer({
                 'Individual',
                 'Organization'
             ]
+        },
+        startTime: {
+            type: String
+        },
+        endTime: {
+            type: String
+        },
+        guests: {
+            type: Array
         }
+    },
+    timeSelected(event) {
+        var el = event.target.getAttribute('data-element');
+        this[el] = this.$$('#' + el + 'Picker').time;
     },
     onChangeType() {
         this.eventType = this.types[this.eventTypeNumber];
@@ -46,7 +59,6 @@ Polymer({
         eventData.type = this.isHideCustomType ?
             this.types[this.eventTypeNumber] : eventData.customType;
         delete eventData.customType;
-        console.log(eventData);
-
+        eventData.guests = this.guests;
     }
 });

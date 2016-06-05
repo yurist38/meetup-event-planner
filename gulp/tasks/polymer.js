@@ -41,7 +41,6 @@ gulp.task('serve-elements', function() {
             inlineScripts: true,
             inlineCss: true
         }))
-        .pipe(concat('elements.html'))
         .pipe(minifyHTML())
-        .pipe(gulp.dest('./public/dist/polymer-elements/'));
+        .pipe(gulp.dest(config.paths.elementsPub));
 });

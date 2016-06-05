@@ -12,6 +12,21 @@
             width: calc(50% - 30px);
             margin: 0 15px;
         }
+        .half-wide iron-icon {
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+            height: 20px;
+            width: 20px;
+            fill: rgba(0,0,0,.26);
+            pointer-events: none;
+        }
+        .half-wide iron-icon:hover {
+            fill: rgba(0,0,0,.54);
+        }
+        ::content #message .label-and-input-container {
+            min-height: 75px;
+        }
         @media screen and (max-width: 600px) {
             .input-wrapper {
                 width: 100%;
@@ -72,14 +87,73 @@
                     </paper-input>
                 </div>
                 <div class="input-wrapper">
-                    <vaadin-date-picker name="start" label="Event start">
-                    </vaadin-date-picker>
+                    <div class="half-wide">
+                        <vaadin-date-picker name="start-date" label="Start date">
+                        </vaadin-date-picker>
+                    </div>
+                    <div class="half-wide">
+                        <paper-input
+                            name="start-time"
+                            label="Start time"
+                            value="[[ startTime ]]"
+                            onclick="document.querySelector('#startTimeDialog').toggle()">
+                        </paper-input>
+                        <iron-icon icon="watch-later"></iron-icon>
+                        <paper-dialog id="startTimeDialog" modal class="paper-time-picker-dialog">
+                            <paper-time-picker id="startTimePicker" time="[[ startTime ]]">
+                            </paper-time-picker>
+                            <div class="buttons">
+                                <paper-button dialog-dismiss>Cancel</paper-button>
+                                <paper-button dialog-confirm on-tap="timeSelected"
+                                    data-element="startTime">
+                                    OK
+                                </paper-button>
+                            </div>
+                        </paper-dialog>
+                    </div>
                 </div>
                 <div class="input-wrapper">
-                    <vaadin-date-picker name="end" label="Event end">
-                    </vaadin-date-picker>
+                    <div class="half-wide">
+                        <vaadin-date-picker name="end-date" label="End date">
+                        </vaadin-date-picker>
+                    </div>
+                    <div class="half-wide">
+                        <paper-input
+                            name="end-time"
+                            label="End time"
+                            value="[[ endTime ]]"
+                            onclick="document.querySelector('#endTimeDialog').toggle()">
+                        </paper-input>
+                        <iron-icon icon="watch-later"></iron-icon>
+                        <paper-dialog id="endTimeDialog" modal class="paper-time-picker-dialog">
+                            <paper-time-picker id="endTimePicker" time="[[ endTime ]]">
+                            </paper-time-picker>
+                            <div class="buttons">
+                                <paper-button dialog-dismiss>Cancel</paper-button>
+                                <paper-button dialog-confirm on-tap="timeSelected"
+                                    data-element="endTime">
+                                    OK
+                                </paper-button>
+                            </div>
+                        </paper-dialog>
+                    </div>
                 </div>
-                <input type="submit">
+                <div class="input-wrapper">
+                    <paper-tags-input
+                        tags="{{ guests }}"
+                        label="Guests"
+                        emptyErrorMessage="Name cannot be empty"
+                        duplicateErrorMessage="This person is already invited"
+                        placeholder="Please enter guest name">
+                    </paper-tags-input>
+                </div>
+                <div class="input-wrapper">
+                    <paper-textarea
+                        id="message"
+                        name="message"
+                        label="Message to your guests (optional)">
+                    </paper-textarea>
+                </div>
             </form>
         </template>
 
