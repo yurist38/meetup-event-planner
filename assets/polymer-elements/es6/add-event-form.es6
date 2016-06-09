@@ -45,8 +45,10 @@ Polymer({
         }
     },
     timeSelected(event) {
-        var el = event.target.getAttribute('data-element');
-        this[el] = this.$$('#' + el + 'Picker').time;
+        var el = event.target.getAttribute('data-element'),
+            picker = this.$$('#' + el + 'Picker');
+        picker.notifyTimeUpdate();
+        this[el] = picker.time;
     },
     onChangeType() {
         this.eventType = this.types[this.eventTypeNumber];

@@ -6,7 +6,7 @@
         <iron-localstorage name="lastEmailLogged" value="{{ lastEmailLogged }}"
             on-iron-localstorage-load-empty="initializeLastEmail">
         </iron-localstorage>
-        <iron-localstorage name="users" value="{{ users }}"
+        <iron-localstorage name="users" value="{{ users }}" id="usersOnLoginPage"
             on-iron-localstorage-load-empty="initializeDefaultUsers">
         </iron-localstorage>
         <iron-localstorage name="userLogged" value="{{ userLogged }}" id="userLogged"

@@ -80,6 +80,7 @@ Polymer({
                 document.location.href = '/login';
             } else {
                 document.querySelector('#login-register-pages').selected = 0;
+                document.querySelector('#usersOnLoginPage').reload();
             }
         }, 3000);
     }

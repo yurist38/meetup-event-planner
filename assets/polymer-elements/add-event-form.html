@@ -100,8 +100,8 @@
                         </paper-input>
                         <iron-icon icon="watch-later"></iron-icon>
                         <paper-dialog id="startTimeDialog" modal class="paper-time-picker-dialog">
-                            <paper-time-picker id="startTimePicker" time="[[ startTime ]]">
-                            </paper-time-picker>
+                            <compound-timepicker id="startTimePicker" time-format="24">
+                            </compound-timepicker>
                             <div class="buttons">
                                 <paper-button dialog-dismiss>Cancel</paper-button>
                                 <paper-button dialog-confirm on-tap="timeSelected"
@@ -126,8 +126,8 @@
                         </paper-input>
                         <iron-icon icon="watch-later"></iron-icon>
                         <paper-dialog id="endTimeDialog" modal class="paper-time-picker-dialog">
-                            <paper-time-picker id="endTimePicker" time="[[ endTime ]]">
-                            </paper-time-picker>
+                            <compound-timepicker id="endTimePicker" time-format="24">
+                            </compound-timepicker>
                             <div class="buttons">
                                 <paper-button dialog-dismiss>Cancel</paper-button>
                                 <paper-button dialog-confirm on-tap="timeSelected"
