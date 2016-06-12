@@ -1,6 +1,6 @@
 <link rel="import" href="polymer-elements.html">
 
-<dom-module id="add-event-form">
+<dom-module id="add-event-form" gmaps>
 
     <style>
         paper-dropdown-menu {
@@ -24,8 +24,12 @@
         .half-wide iron-icon:hover {
             fill: rgba(0,0,0,.54);
         }
-        ::content #message .label-and-input-container {
-            min-height: 75px;
+        #locationDialog {
+            min-width: 40%;
+        }
+        ::content google-map {
+            height: 400px;
+            max-height: 85%;
         }
         @media screen and (max-width: 600px) {
             .input-wrapper {
@@ -38,6 +42,9 @@
     <template>
         <iron-localstorage name="userLogged" value="{{ userLogged }}">
         </iron-localstorage>
+        <iron-localstorage name="events" value="{{ events }}" id="events"
+            on-iron-localstorage-load-empty="initializeDefaultEvents">
+        </iron-localstorage>
 
         <h1>Create new event</h1>
 
@@ -48,13 +55,15 @@
                     label="Name"
                     name="name"
                     type="text"
-                    required autofocus>
+                    required autofocus
+                    on-input="onFormChange">
                     </paper-input>
                 </div>
                 <div class="input-wrapper">
-                    <paper-dropdown-menu label="Type">
+                    <paper-dropdown-menu label="Type" required>
                         <paper-listbox class="dropdown-content"
-                            selected="{{ eventTypeNumber }}">
+                            selected="{{ eventTypeNumber }}"
+                            on-iron-items-changed="onFormChange">
                             <template is="dom-repeat" items="{{ types }}">
                                 <paper-item>{{ item }}</paper-item>
                             </template>
@@ -65,7 +74,8 @@
                         <paper-input id="customType"
                             label="Your custom type"
                             type="text"
-                            name="customType">
+                            name="customType"
+                            on-input="onFormChange">
                         </paper-input>
                     </div>
                 </div>
@@ -83,12 +93,17 @@
                         name="hostname"
                         label="Host Name"
                         type="text"
-                        required>
+                        required
+                        on-input="onFormChange">
                     </paper-input>
                 </div>
                 <div class="input-wrapper">
                     <div class="half-wide">
-                        <vaadin-date-picker name="start-date" label="Start date">
+                        <vaadin-date-picker
+                            name="start-date"
+                            label="Start date"
+                            value="{{ startDate }}"
+                            required>
                         </vaadin-date-picker>
                     </div>
                     <div class="half-wide">
@@ -96,7 +111,8 @@
                             name="start-time"
                             label="Start time"
                             value="[[ startTime ]]"
-                            onclick="document.querySelector('#startTimeDialog').toggle()">
+                            onclick="document.querySelector('#startTimeDialog').toggle()"
+                            required>
                         </paper-input>
                         <iron-icon icon="watch-later"></iron-icon>
                         <paper-dialog id="startTimeDialog" modal class="paper-time-picker-dialog">
@@ -114,7 +130,11 @@
                 </div>
                 <div class="input-wrapper">
                     <div class="half-wide">
-                        <vaadin-date-picker name="end-date" label="End date">
+                        <vaadin-date-picker
+                            name="end-date"
+                            label="End date"
+                            value="{{ endDate }}"
+                            required>
                         </vaadin-date-picker>
                     </div>
                     <div class="half-wide">
@@ -122,7 +142,8 @@
                             name="end-time"
                             label="End time"
                             value="[[ endTime ]]"
-                            onclick="document.querySelector('#endTimeDialog').toggle()">
+                            onclick="document.querySelector('#endTimeDialog').toggle()"
+                            required>
                         </paper-input>
                         <iron-icon icon="watch-later"></iron-icon>
                         <paper-dialog id="endTimeDialog" modal class="paper-time-picker-dialog">
@@ -139,22 +160,64 @@
                     </div>
                 </div>
                 <div class="input-wrapper">
-                    <paper-tags-input
-                        tags="{{ guests }}"
-                        label="Guests"
-                        emptyErrorMessage="Name cannot be empty"
-                        duplicateErrorMessage="This person is already invited"
-                        placeholder="Please enter guest name">
-                    </paper-tags-input>
+                    <paper-input
+                        label="Location"
+                        name="location"
+                        value="[[ latitude ]], [[ longitude ]]"
+                        onclick="document.querySelector('#locationDialog').toggle()"
+                        required>
+                    </paper-input>
+                    <geo-location
+                        latitude="{{ latitude }}"
+                        longitude="{{ longitude }}">
+                    </geo-location>
+                    <paper-dialog id="locationDialog" modal>
+                        <h2>Please choose location</h2>
+                        <google-map
+                            api-key="{{ gmapsToken }}"
+                            latitude="{{ latitude }}"
+                            longitude="{{ longitude }}">
+                            <google-map-marker
+                                latitude="{{ latitude }}"
+                                longitude="{{ longitude }}"
+                                draggable="true">
+                            </google-map-marker>
+                        </google-map>
+                        <div class="buttons">
+                            <paper-button dialog-confirm>OK</paper-button>
+                        </div>
+                    </paper-dialog>
                 </div>
                 <div class="input-wrapper">
                     <paper-textarea
                         id="message"
                         name="message"
+                        value=""
                         label="Message to your guests (optional)">
                     </paper-textarea>
                 </div>
+                <div class="input-wrapper">
+                    <paper-tags-input
+                        id="guests"
+                        tags="{{ guests }}"
+                        label="Guests"
+                        emptyErrorMessage="Name cannot be empty"
+                        duplicateErrorMessage="This person is already invited"
+                        placeholder="Please type guest name and press Enter">
+                    </paper-tags-input>
+                </div>
+                <div class="centered padding">
+                    <paper-button raised
+                        class="active"
+                        disabled="{{ submitBtnDisabled }}"
+                        on-tap="onSubmit">
+                        Save
+                    </paper-button>
+                </div>
             </form>
+            <paper-toast id="toastEventAdded"
+                text="Event has created! Redirecting to Events page...">
+            </paper-toast>
         </template>
 
         <template is="dom-if" if="{{ !userLogged }}">
