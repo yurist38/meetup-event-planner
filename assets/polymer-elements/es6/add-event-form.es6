@@ -67,7 +67,7 @@ Polymer({
         }
     },
     initializeDefaultEvents() {
-        this.events = [];
+        this.events = {};
     },
     timeSelected(event) {
         var el = event.target.getAttribute('data-element'),

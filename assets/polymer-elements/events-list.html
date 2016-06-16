@@ -2,16 +2,118 @@
 
 <dom-module id="events-list">
 
+    <style>
+        paper-card {
+            width: 30%;
+            min-width: 300px;
+            background-color: rgba(255,255,255,0.7);
+        }
+        paper-card h2 {
+            margin: 0;
+        }
+        paper-card .subtitle {
+            margin: 10px 0;
+        }
+        ul {
+            display: inline-block;
+            list-style: none;
+            font-style: italic;
+            padding: 0;
+            margin: 0;
+        }
+        .label {
+            display: inline-block;
+            vertical-align: top;
+            width: 100px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        .delete-event-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 999;
+            padding: 0;
+            margin: 3px 0;
+            min-width: 0;
+            color: #999;
+            transition: all .2s ease-in-out;
+        }
+        .delete-event-btn:hover {
+            color: #000;
+        }
+    </style>
+
     <template>
         <iron-localstorage name="userLogged" value="{{ userLogged }}">
         </iron-localstorage>
+        <iron-localstorage name="events" value="{{ events }}"
+            on-iron-localstorage-load-empty="initializeDefaultEvents"
+            on-iron-localstorage-load="initializeEvents">
+        </iron-localstorage>
 
-        <h1>Events list</h1>
+        <h1>Events</h1>
 
         <template is="dom-if" if="{{ !userLogged }}">
             Please
             <a href="/login" on-tap="onLoginClicked">login</a>
             to see your events...
+        </template>
+
+        <template is="dom-if" if="{{ isEventsEmpty }}">
+            <div>
+                No added events yet. Please
+                <a href="/add-event" title="New event">create your first event...</a>
+            </div>
+        </template>
+
+        <template is="dom-repeat" items="{{ eventsList }}" id="eventsList">
+            <paper-card>
+                <paper-button
+                    class="delete-event-btn"
+                    title="Delete event"
+                    on-tap="deleteEvent">
+                    <iron-icon icon="delete"></iron-icon>
+                </paper-button>
+                <div class="card-content">
+                    <h2>[[ item.name ]]</h2>
+                    <div class="subtitle">[[ item.type ]]</div>
+                    <div>
+                        <span class="label">
+                            Host:
+                        </span>
+                        [[ item.hostname ]]
+                        ([[ item.organizer ]])
+                    </div>
+                    <div>
+                        <span class="label">
+                            Start:
+                        </span>
+                        [[ _date(item.startdate, 'dd/MM/yyyy') ]]
+                        [[ item.starttime ]]
+                    </div>
+                    <div>
+                        <span class="label">
+                            End:
+                        </span>
+                        [[ _date(item.enddate, 'dd/MM/yyyy') ]]
+                        [[ item.endtime ]]
+                    </div>
+                    <div>
+                        <span class="label">
+                            Invited guests
+                        </span>
+                        <ul>
+                            <template is="dom-repeat" items="{{ item.guests }}" as="guest">
+                                <li>[[ guest ]]</li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <paper-button>Some action</paper-button>
+                </div>
+            </paper-card>
         </template>
 
         <paper-fab id="addEventBtn"

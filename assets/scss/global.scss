@@ -61,12 +61,16 @@ paper-button {
     padding: 10px;
 }
 
-.mainpage {
+.mainpage, .eventspage {
     position: relative;
     height: calc(100vh - 64px);
     background-image: url('/images/main-bg.jpg');
     background-size: cover;
     background-position: center center;
+    h1 {
+        color: #fff;
+        text-shadow: 1px 1px 3px #000;
+    }
 }
 
 a.menu-link {

@@ -23,6 +23,7 @@
     "paper-tags-input": "^1.2.2",
     "compound-timepicker": "^0.5.1",
     "google-map": "GoogleWebComponents/google-map#^1.1.10",
-    "geo-location": "^1.0.5"
+    "geo-location": "^1.0.5",
+    "polymer-efilters": "^0.3.2"
   }
 }
