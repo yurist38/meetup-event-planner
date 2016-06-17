@@ -1,5 +1,15 @@
 <div class="mainpage">
-    <div class="container">
-        
+    <video autoplay loop poster="/images/video-bg-stub.jpg" id="video-bg">
+        <source src="/video/bg.webm" type="video/webm">
+        <source src="/video/bg.mp4" type="video/mp4">
+    </video>
+    <div id="dot-bg"></div>
+    <iron-icon icon="av:pause" id="pause-icon"></iron-icon>
+    <div class="title">
+        Your personal awesome event planner!
     </div>
+    <div class="subtitle">
+        [ Let's get party started! ]
+    </div>
+    {{> scripts}}
 </div>

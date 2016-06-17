@@ -3,10 +3,18 @@
 <dom-module id="events-list">
 
     <style>
+        .events-container {
+            @apply(--layout-horizontal);
+            @apply(--layout-wrap);
+            @apply(--layout-center-justified);
+        }
         paper-card {
             width: 30%;
             min-width: 300px;
             background-color: rgba(255,255,255,0.7);
+            vertical-align: top;
+            margin: 5px;
+            padding-bottom: 180px;
         }
         paper-card h2 {
             margin: 0;
@@ -28,6 +36,12 @@
             margin: 5px 0;
             font-weight: bold;
         }
+        .desc {
+            display: inline-block;
+            vertical-align: top;
+            width: calc(100% - 105px);
+            margin: 5px 0;
+        }
         .delete-event-btn {
             position: absolute;
             right: 10px;
@@ -42,12 +56,26 @@
         .delete-event-btn:hover {
             color: #000;
         }
+        .highlighted {
+            color: #fff;
+            text-shadow: 1px 1px 1px #666;
+        }
+        .highlighted a {
+            color: #fff;
+            font-weight: bold;
+        }
+        google-map {
+            position: absolute;
+            bottom: 0;
+            height: 180px;
+            width: 100%;
+        }
     </style>
 
     <template>
         <iron-localstorage name="userLogged" value="{{ userLogged }}">
         </iron-localstorage>
-        <iron-localstorage name="events" value="{{ events }}"
+        <iron-localstorage name="events" value="{{ events }}" id="eventsStorage"
             on-iron-localstorage-load-empty="initializeDefaultEvents"
             on-iron-localstorage-load="initializeEvents">
         </iron-localstorage>
@@ -55,66 +83,94 @@
         <h1>Events</h1>
 
         <template is="dom-if" if="{{ !userLogged }}">
-            Please
-            <a href="/login" on-tap="onLoginClicked">login</a>
-            to see your events...
+            <div class="highlighted">
+                Please
+                <a href="/login" on-tap="onLoginClicked">login</a>
+                to see your events...
+            </div>
         </template>
 
         <template is="dom-if" if="{{ isEventsEmpty }}">
-            <div>
+            <div class="highlighted">
                 No added events yet. Please
                 <a href="/add-event" title="New event">create your first event...</a>
             </div>
         </template>
 
-        <template is="dom-repeat" items="{{ eventsList }}" id="eventsList">
-            <paper-card>
-                <paper-button
-                    class="delete-event-btn"
-                    title="Delete event"
-                    on-tap="deleteEvent">
-                    <iron-icon icon="delete"></iron-icon>
-                </paper-button>
-                <div class="card-content">
-                    <h2>[[ item.name ]]</h2>
-                    <div class="subtitle">[[ item.type ]]</div>
-                    <div>
-                        <span class="label">
-                            Host:
-                        </span>
-                        [[ item.hostname ]]
-                        ([[ item.organizer ]])
+        <div class="events-container">
+            <template is="dom-repeat" items="{{ eventsList }}" id="eventsList">
+                <paper-card>
+                    <paper-button
+                        class="delete-event-btn"
+                        title="Delete event"
+                        on-tap="deleteEvent">
+                        <iron-icon icon="delete" data-event$="[[ item.name ]]"></iron-icon>
+                    </paper-button>
+                    <div class="card-content">
+                        <h2>[[ item.name ]]</h2>
+                        <div class="subtitle">[[ item.type ]]</div>
+                        <div>
+                            <span class="label">
+                                Host:
+                            </span>
+                            <span class="desc">
+                                [[ item.hostname ]]
+                                ([[ item.organizer ]])
+                            </span>
+                        </div>
+                        <div>
+                            <span class="label">
+                                Start:
+                            </span>
+                            <span class="desc">
+                                [[ _date(item.startdate, 'dd/MM/yyyy') ]]
+                                [[ item.starttime ]]
+                            </span>
+                        </div>
+                        <div>
+                            <span class="label">
+                                End:
+                            </span>
+                            <span class="desc">
+                                [[ _date(item.enddate, 'dd/MM/yyyy') ]]
+                                [[ item.endtime ]]
+                            </span>
+                        </div>
+                        <div>
+                            <span class="label">
+                                Invited guests:
+                            </span>
+                            <ul>
+                                <template is="dom-repeat" items="{{ item.guests }}" as="guest">
+                                    <li>[[ guest ]]</li>
+                                </template>
+                            </ul>
+                        </div>
+                        <template is="dom-if" if="{{ item.message }}">
+                            <div>
+                                <span class="label">
+                                    Message:
+                                </span>
+                                <span class="desc">
+                                    [[ item.message ]]
+                                </span>
+                            </div>
+                        </template>
                     </div>
                     <div>
-                        <span class="label">
-                            Start:
-                        </span>
-                        [[ _date(item.startdate, 'dd/MM/yyyy') ]]
-                        [[ item.starttime ]]
+                        <google-map
+                            api-key="{{ gmapsToken }}"
+                            latitude="[[ getLatitude(item.location) ]]"
+                            longitude="[[ getLongitude(item.location) ]]">
+                            <google-map-marker
+                                latitude="[[ getLatitude(item.location) ]]"
+                                longitude="[[ getLongitude(item.location) ]]">
+                            </google-map-marker>
+                        </google-map>
                     </div>
-                    <div>
-                        <span class="label">
-                            End:
-                        </span>
-                        [[ _date(item.enddate, 'dd/MM/yyyy') ]]
-                        [[ item.endtime ]]
-                    </div>
-                    <div>
-                        <span class="label">
-                            Invited guests
-                        </span>
-                        <ul>
-                            <template is="dom-repeat" items="{{ item.guests }}" as="guest">
-                                <li>[[ guest ]]</li>
-                            </template>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <paper-button>Some action</paper-button>
-                </div>
-            </paper-card>
-        </template>
+                </paper-card>
+            </template>
+        </div>
 
         <paper-fab id="addEventBtn"
             icon="add"

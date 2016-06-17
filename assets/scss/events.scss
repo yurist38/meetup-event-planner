@@ -1,5 +1,25 @@
+.eventspage {
+    position: relative;
+    height: calc(100vh - 64px);
+    background-image: url('/images/main-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    overflow-y: auto;
+    h1 {
+        color: #fff;
+        text-shadow: 1px 1px 3px #000;
+    }
+}
+
 #addEventBtn {
-    position: absolute;
+    position: fixed;
     right: 30px;
     bottom: 30px;
+}
+
+@media screen and (max-width: 600px) {
+    .eventspage {
+        height: calc(100vh - 56px);
+    }
 }
